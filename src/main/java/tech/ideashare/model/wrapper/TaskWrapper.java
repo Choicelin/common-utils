@@ -1,6 +1,7 @@
-package com.fenxiang.tieba.model.wrapper;
+package tech.ideashare.model.wrapper;
 
-import com.fenxiang.tieba.model.TieBaTask;
+
+import tech.ideashare.model.TieBaTask;
 
 import java.util.List;
 
