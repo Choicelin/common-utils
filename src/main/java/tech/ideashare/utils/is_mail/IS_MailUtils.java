@@ -52,7 +52,7 @@ public class IS_MailUtils {
 
 
     public static void main(String[] args) {
-        IS_MailConfig mailConfig = new IS_MailConfig("smtp.mxhichina.com",25,"tongzhuang@ideashare.tech","DeMeng888");
+        IS_MailConfig mailConfig = new IS_MailConfig("smtp.mxhichina.com",25,"xxxxx","xxxxx");
         mailConfig.setReceiverAddr("lixiang9409@vip.qq.com","weixiaodelixiang@gmail.com");
         sendSimpleBySMTP(mailConfig,"Mail Apis","hello this mail have been send to two mailAddr");
     }

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="德蒙斯特管理页面">
+
+    <title>德蒙斯特管理页面</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link th:href="@{https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/dist/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- bootstrap-table -->
+    <link th:href="@{/vendor/bootstrap-table/bootstrap-table.min.css}" href="/static/vendor/bootstrap-table/bootstrap-table.css" rel="stylesheet" type="text/css">
+
+    <link th:href="@{/vendor/bootstrap3-editable/css/bootstrap-editable.css}" href="/static/vendor/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" type="text/css">
+
+
+
+    <!-- Custom Fonts -->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript">
+        var CreatedOKLodop7766=null;
+
+
+        //====获取LODOP对象的主过程：====
+        function getLodop(oOBJECT,oEMBED){
+
+            var LODOP;
+            try{
+                var isIE = (navigator.userAgent.indexOf('MSIE')>=0) || (navigator.userAgent.indexOf('Trident')>=0);
+
+                var is64IE  = isIE && (navigator.userAgent.indexOf('x64')>=0);
+                //=====如果页面有Lodop就直接使用，没有则新建:==========
+                if (oOBJECT!=undefined || oEMBED!=undefined) {
+                    if (isIE) LODOP=oOBJECT; else  LODOP=oEMBED;
+                } else if (CreatedOKLodop7766==null){
+                    LODOP=document.createElement("object");
+                    LODOP.setAttribute("width",0);
+                    LODOP.setAttribute("height",0);
+                    LODOP.setAttribute("style","position:absolute;left:0px;top:-100px;width:0px;height:0px;");
+                    if (isIE) LODOP.setAttribute("classid","clsid:2105C259-1E0C-4534-8141-A753534CB4CA");
+                    else LODOP.setAttribute("type","application/x-print-lodop");
+                    document.documentElement.appendChild(LODOP);
+                    CreatedOKLodop7766=LODOP;
+                } else LODOP=CreatedOKLodop7766;
+
+
+                //===如下空白位置适合调用统一功能(如注册语句、语言选择等):===
+                LODOP.SET_LICENSES("","13528A153BAEE3A0254B9507DCDE2839","","");
+                //===========================================================
+                return LODOP;
+            } catch(err) {alert("getLodop出错:"+err);};
+        };
+
+    </script>
+
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">收银</a>
+        </div>
+        <!-- /.navbar-header -->
+
+
+        <ul th:include="headMacro::index_top" class="nav navbar-top-links navbar-right"></ul>
+
+        <!-- /.navbar-top-links -->
+
+        <div th:include="headMacro::index_side" class="navbar-default sidebar" role="navigation"></div>
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">收银台</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="input-group">
+                            <label class="radio-inline">
+                                <input type="radio" class="input-lg" name="statusRadio" id="radio_sale" value="1"
+                                       checked>
+                                <p class="input-lg">销售</p>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" class="input-lg" name="statusRadio" id="radio_back" value="2">
+                                <p class="input-lg">退货</p>
+                            </label>
+                            <input id="productBarCode" class="form-control input-lg" placeholder="请输入商品条码"/>
+                        </div>
+                    </div>
+                    <!-- /.row (nested) -->
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <label class="radio-inline">
+                                            <input type="radio" class="input-lg" name="memberRadio" id="radio_member" value="1"
+                                                   checked>
+                                            <p class="input-lg">贵宾</p>
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" class="input-lg" name="memberRadio" id="radio_newMember" value="2">
+                                            <p class="input-lg">新建</p>
+                                        </label>
+
+                                    </div>
+                                    <div class="alert-success" id="memberInfo">
+
+                                    </div>
+
+                                </div>
+
+                                <div data-name="memberCardId" data-value="0" class="col-lg-6">
+                                    <div id="alreadyMemberDiv" >
+                                        <input id="memberCard" class="col-lg-12 input-lg" placeholder="会员号或者手机"/>
+
+                                        <input id="newMemberButton" class="col-lg-3 btn btn-success" type="button" value="充值"/>
+                                        <input id="reChargeValue" class="col-lg-8 input-lg" placeholder="充值金额"/>
+                                    </div>
+                                    <div id="newMemberDiv" style="display: none;">
+                                        <input id="memberCardId" class="  input-lg" placeholder="会员号"/>
+                                        <input id="memberMobile" class="  input-lg" placeholder="手机号"/>
+                                        <input type="button" class="btn btn-success" value="确定" id="newMemberSubmit">
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    <!-- /.row (nested) -->
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        总清单
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <div id="toolbar" class="btn-group">
+                                <button id="btn_add" type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                                </button>
+                                <button id="btn_delete" type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                                </button>
+                            </div>
+                            <table id="productListTable">
+
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <div  class="col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        总价格
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div id="totalPriceDiv" >
+
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        结算
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="cashPay">现金</label>
+                                <input name="getSubmit" id="cashPay" value="0" class="form-control">
+                                <label for="aliPay">支付宝</label>
+                                <input name="getSubmit" id="aliPay" value="0" class="form-control">
+                                <label for="wechatPay">微信</label>
+                                <input name="getSubmit" id="wechatPay" value="0" class="form-control">
+                                <label for="bankPay">银行卡</label>
+                                <input name="getSubmit"  id="bankPay" value="0" class="form-control">
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label for="balancePay">VIP余额</label>
+                                <input name="getSubmit" id="balancePay" value="0" class="form-control">
+                                <label for="scorePay">积分</label>
+                                <input name="getSubmit" id="scorePay" value="0" class="form-control">
+                                <label for="couponPay">代金券</label>
+                                <input name="getSubmit" id="couponPay" value="0" class="form-control">
+                                <input id="balanceButton" type="button"  class="form-control btn btn-danger" value="找零">
+                                <input id="cashSubmit" class="form-control btn btn-success" type="button" value="确认">
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+
+        </div>
+
+
+        <div id="printDiv">
+            <p>这是一个打印测试</p>
+        </div>
+
+
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script th:src="@{https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js}" src="/static/vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script th:src="@{https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js}" src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="/vendor/metisMenu/metisMenu.min.js"></script>
+<script src="/dist/js/sb-admin-2.min.js"></script>
+
+<script th:src="@{/vendor/bootstrap-table/bootstrap-table.min.js}" src="/static/vendor/bootstrap-table/bootstrap-table.js"></script>
+
+
+<script th:src="@{/vendor/bootstrap-table/extensions/editable/bootstrap-table-editable.min.js}" src="/static/vendor/bootstrap-table/extensions/editable/bootstrap-table-editable.js"></script>
+
+<script th:src="@{/vendor/bootstrap3-editable/js/bootstrap-editable.min.js}" src="/static/vendor/bootstrap3-editable/js/bootstrap-editable.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script th:src="@{/js/cash.js}" src="/static/js/cash.js"></script>
+
+</body>
+
+</html>
