@@ -2,16 +2,31 @@ package tech.ideashare.utils;
 
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * Created by lixiang on 14/07/2017.
  */
 public class IS_ListUtils {
 
+
+    /**
+     * List根据某一个属性去重
+     *        List<ProductAttribute> colorList
+     *        =allAttr.stream()
+     *          .filter(IS_ListUtils.distinctByKey(ProductAttribute::getColorCode))
+     *          .collect(Collectors.toList());
+     * @param keyExtractor
+     * @param <T>
+     * @return
+     */
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, Boolean> map = new ConcurrentHashMap<>();
+        return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
 
     /**
      * 从list中随机返回一个值（效率未验）

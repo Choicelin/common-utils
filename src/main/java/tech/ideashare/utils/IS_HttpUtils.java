@@ -19,8 +19,6 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import tech.ideashare.config.PostConfig;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -28,6 +26,7 @@ import java.io.File;
 import java.net.URI;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +35,10 @@ import java.util.Map;
  * Created by lixiang on 10/07/2017.
  */
 public class IS_HttpUtils {
+
+    public static HashMap<String,String> configMap = new HashMap<>();
+
+    public static final String USER_COOKIE = "user_cookie";
 
 
     // 私有构造器，防止类的实例化
@@ -576,7 +579,7 @@ public class IS_HttpUtils {
         HttpResponse response = null;
         try
         {
-            request.addHeader("cookie", PostConfig.configMap.get(PostConfig.USER_COOKIE));
+            request.addHeader("cookie", configMap.get(USER_COOKIE));
             request.addHeader("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
             System.out.println("request uri: "+request.toString());
             response = executeRequest(request);

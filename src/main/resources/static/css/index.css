@@ -1,0 +1,21 @@
+.slider {
+  position: relative;
+  width: 96%;
+  margin: 10px auto 0;
+}
+
+.slider-item {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  -webkit-transition: opacity .8s;
+  -moz-transition: opacity .8s;
+  -ms-transition: opacity .8s;
+  -o-transition: opacity .8s;
+  transition: opacity .8s;
+}
+
+.slider .slider-selected {
+  opacity: 1;
+}
