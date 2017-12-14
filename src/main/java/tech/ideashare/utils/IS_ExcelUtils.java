@@ -104,8 +104,14 @@ public class IS_ExcelUtils {
                                 field.set(t, (int)d);
                             }
 
+                        }else if(field.getType()==Double.class) {
+                            if(indexMap.get(fieldName)!=null){
+                                double d = Double.valueOf(indexMap.get(fieldName));
+                                field.set(t, d);
+                            }
                         }else {
                             field.set(t, indexMap.get(fieldName));
+
                         }
                     }
                     list.add(t);

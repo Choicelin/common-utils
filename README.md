@@ -45,7 +45,7 @@
     http请求的工具类
     1. getAsString/Json
     2. postAsString/Json/byte
-- MailUtils 
+- MailUtils  
     发送邮件的工具类，使用前需先实例化一个 IS_MailConfig 传入配置信息
     1. sendSimpleBySMTP 
 - SMSUtils  
