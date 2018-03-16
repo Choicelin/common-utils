@@ -1,6 +1,7 @@
 package tech.ideashare;
 
 
+import com.avos.avoscloud.AVOSCloud;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
