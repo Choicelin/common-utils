@@ -47,7 +47,7 @@ public class ModelController {
         managerSb.append("public List<").append(modelName).append("VO> ")
                 .append(controllerListMethodName).append("(").append(requestModelName).append(" ").append(requestModelName.toLowerCase()).append("){\n");
         // list 的方法体
-        String managerlistReturn  = "List<"+modelName+"VO> "+" voList = "+manage+"."+controllerListMethodName+"();";
+        String managerlistReturn  = "List<"+modelName+"VO> "+" voList = "+dao+"."+controllerListMethodName+"();";
 
         managerSb.append(managerlistReturn).append("\n");
 
