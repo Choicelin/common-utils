@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import tech.ideashare.model.generate_model.IS_ProjectConfig;
 import tech.ideashare.model.generate_model.MysqlJdbcConfig;
 import tech.ideashare.model.generate_model.MysqlTable;
-import tech.ideashare.utils.is_generate.IS_GenerateUtils;
+import tech.ideashare.utils.is_generate.IS_GenMapperUtils;
 import tech.ideashare.utils.is_generate.IS_MySqlUtils;
 
 /**
@@ -23,8 +23,10 @@ public class Test {
                 .setPassword("admin123");
         MysqlTable table = IS_MySqlUtils.getTableInfo(config,"stockout_order_msg");
         System.out.println(JSON.toJSONString(table));
-        System.out.println(IS_GenerateUtils.generateModel(table));
-        System.out.println(IS_GenerateUtils.generateQueryCondition(table));
-        System.out.println(IS_GenerateUtils.generateResultMap(table,new IS_ProjectConfig()));
+        System.out.println(IS_GenMapperUtils.generateModel(table));
+        System.out.println(IS_GenMapperUtils.generateQueryCondition(table));
+        System.out.println(IS_GenMapperUtils.generateResultMap(table,new IS_ProjectConfig()));
+        System.out.println(IS_GenMapperUtils.generateBaseColumnList(table));
+        System.out.println(IS_GenMapperUtils.generateInsertSql(table,new IS_ProjectConfig()));
     }
 }

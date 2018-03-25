@@ -6,7 +6,7 @@ package tech.ideashare.model.generate_model;
  **/
 public class IS_ProjectConfig {
 
-    //实体名
+    //实体名 命名首字母大写
     private String modelName="MybatisGenerate";
 
     //包名
