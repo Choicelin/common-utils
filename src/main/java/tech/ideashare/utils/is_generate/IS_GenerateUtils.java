@@ -1,10 +1,7 @@
 package tech.ideashare.utils.is_generate;
 
-import com.alibaba.fastjson.JSON;
-import tech.ideashare.model.generate_model.MethodHeadModel;
-import tech.ideashare.model.generate_model.MysqlField;
-import tech.ideashare.model.generate_model.MysqlJdbcConfig;
-import tech.ideashare.model.generate_model.MysqlTable;
+import tech.ideashare.model.generate_model.*;
+import tech.ideashare.utils.IS_NameUtils;
 
 import java.util.List;
 import java.util.function.Function;
@@ -48,20 +45,57 @@ public class IS_GenerateUtils {
      * <sql id="queryCondition" >
      * <where >
      * <if test="id != null" >
-     * and id = #{id,jdbcType=BIGINT}
+     * and id = #{id}
      * </if>
      * </where>
      * </sql>
+     *
      * @param table
      * @return
      */
     public static String generateQueryCondition(MysqlTable table) {
 
-        StringBuilder sb = new StringBuilder();
-        List<String> fieldStrList = table.getFieldList().stream().map(field2BeanStr).collect(Collectors.toList());
-        for (String s : fieldStrList) {
-            sb.append(s).append("\n");
+        StringBuilder sb = new StringBuilder("<sql id=\"queryCondition\" >").append("<where>\n");
+        for (MysqlField field : table.getFieldList()) {
+            sb.append("<if test=\"").append(IS_NameUtils.underScope2Camel(field.getName())).append("\" != null\" >\n")
+                    .append("and ")
+                    .append(field.getName())
+                    .append("=#{")
+                    .append(IS_NameUtils.underScope2Camel(field.getName()))
+                    .append("}\n").append("</if>\n");
         }
+        sb.append("</where>\n</sql>\n");
+        return sb.toString();
+    }
+
+    /**
+     * 传入一个TABLE对象，生成里面所有字段对应xml的ResultMap
+     * 如：
+     * <resultMap id="BaseResultMap" type="com.wdk.shop.model.PriceTagPrintItem" >
+     * <id column="id" property="id" jdbcType="BIGINT" />
+     * <result column="task_id" property="taskId" jdbcType="BIGINT" />
+     * <result column="sku_code" property="skuCode" jdbcType="VARCHAR" />
+     * </resultMap>
+     *
+     * @param table 要传入的表
+     * @param config 项目配置，需要其中的包名，实体名
+     * @return
+     */
+    public static String generateResultMap(MysqlTable table, IS_ProjectConfig config) {
+        StringBuilder sb = new StringBuilder("<resultMap id=\"BaseResultMap\" type=\""+config.getPackageName()+"."+config.getModelName()+"\" >\n");
+        //id这一列单独处理
+        sb.append("<id column=\"id\" property=\"id\" jdbcType=\"BIGINT\" />\n");
+        for (MysqlField field : table.getFieldList()) {
+            if (field.getName().equals("id")) continue;
+            sb.append("<result column=\"")
+                    .append(field.getName())
+                    .append("\" property=\"")
+                    .append(IS_NameUtils.underScope2Camel(field.getName()))
+                    .append("\" jdbcType=\"")
+                    .append(MysqlJdbcConfig.getResultMap(field.getType()))
+                    .append("\" />\n");
+        }
+        sb.append("</resultMap>\n");
         return sb.toString();
     }
 

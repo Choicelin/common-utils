@@ -15,17 +15,35 @@ public class MysqlJdbcConfig {
 
     //<数据库类型，JAVA类型>
     private static Map<String,String> property2BeanMap = new HashMap<>();
+    //<数据库类型，resultMap里面的类型>
+    private static Map<String,String> property2ResultMap = new HashMap<>();
+
     static{
         property2BeanMap.put("BIGINT","Integer");
         property2BeanMap.put("BIGINT UNSIGNED","Integer");
+        property2BeanMap.put("TINYINT","Integer");
         property2BeanMap.put("VARCHAR","String");
         property2BeanMap.put("DATETIME","Date");
         property2BeanMap.put("TIMESTAMP","Date");
-        property2BeanMap.put("TINYINT","Integer");
+        property2BeanMap.put("DECIMAL","BigDecimal");
+        property2BeanMap.put("INT","Integer");
+
+
+        property2ResultMap.put("TINYINT","TINYINT");
+        property2ResultMap.put("BIGINT","BIGINT");
+        property2ResultMap.put("BIGINT UNSIGNED","BIGINT");
+        property2ResultMap.put("VARCHAR","VARCHAR");
+        property2ResultMap.put("DATETIME","TIMESTAMP");
+        property2ResultMap.put("TIMESTAMP","TIMESTAMP");
+        property2ResultMap.put("DECIMAL","DECIMAL");
+        property2ResultMap.put("INT","INTEGER");
     }
 
     public static String getJavaBean(String property){
         return property2BeanMap.get(property);
+    }
+    public static String getResultMap(String property){
+        return property2ResultMap.get(property);
     }
 
     public String getUrl() {

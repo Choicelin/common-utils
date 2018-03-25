@@ -39,6 +39,8 @@ public class IS_MySqlUtils {
                 int datasize = resultSet.getInt("COLUMN_SIZE");
                 int digits = resultSet.getInt("DECIMAL_DIGITS");
                 int nullable = resultSet.getInt("NULLABLE");
+                String remark = resultSet.getString("REMARKS");
+                System.out.println(remark);
                 field.setName(columnName);
                 field.setType(columnType);
                 fieldList.add(field);
