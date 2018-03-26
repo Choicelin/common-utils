@@ -40,9 +40,7 @@ public class IS_MySqlUtils {
                 int digits = resultSet.getInt("DECIMAL_DIGITS");
                 int nullable = resultSet.getInt("NULLABLE");
                 String remark = resultSet.getString("REMARKS");
-                System.out.println(remark);
-                field.setName(columnName);
-                field.setType(columnType);
+                field.setName(columnName).setRemark(remark).setType(columnType);
                 fieldList.add(field);
             }
             table.setFieldList(fieldList).setTableName(tableName);

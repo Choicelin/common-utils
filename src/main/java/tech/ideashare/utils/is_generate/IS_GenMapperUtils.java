@@ -32,10 +32,11 @@ public class IS_GenMapperUtils {
     public static String generateModel(MysqlTable table) {
 
         StringBuilder sb = new StringBuilder();
-        List<String> fieldStrList = table.getFieldList().stream().map(field2BeanStr).collect(Collectors.toList());
-        for (String s : fieldStrList) {
-            sb.append(s).append("\n");
+        for (MysqlField field : table.getFieldList()) {
+            sb.append("//").append(field.getRemark()).append("\n");
+            sb.append("private ").append(MysqlJdbcConfig.getJavaBean(field.getType())).append(" ").append(field.getName()).append(";\n");
         }
+
         return sb.toString();
     }
 
@@ -145,15 +146,15 @@ public class IS_GenMapperUtils {
      * </trim>
      * </insert>
      *
-     * @param table 对应的数据库的表
+     * @param table  对应的数据库的表
      * @param config 对应项目的配置，主要取包名和实体名
      * @return
      */
-    public static String generateInsertSql(MysqlTable table,IS_ProjectConfig config) {
-        if(config==null){
-            config =new IS_ProjectConfig();
+    public static String generateInsertSql(MysqlTable table, IS_ProjectConfig config) {
+        if (config == null) {
+            config = new IS_ProjectConfig();
         }
-        StringBuilder sb = new StringBuilder("<insert id=\"insert"+config.getModelName()+"\" parameterType=\""+config.getPackageName()+".model."+config.getModelName()+"\">\n");
+        StringBuilder sb = new StringBuilder("<insert id=\"insert" + config.getModelName() + "\" parameterType=\"" + config.getPackageName() + ".model." + config.getModelName() + "\">\n");
         sb.append("insert into ").append(table.getTableName()).append("\n");
         // 生成上面的table属性名
         StringBuilder tableBuilder = new StringBuilder("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\" >");
@@ -175,10 +176,103 @@ public class IS_GenMapperUtils {
         return sb.toString();
     }
 
+    /**
+     * 生成update的语句
+     * <update id="update" parameterType="com.wdk.shop.model.CfgStockoutRule">
+     * UPDATE test_table
+     * <trim prefix="set" suffixOverrides=",">
+     * <if test="testName != null">
+     * test_name = #{merchantCode},
+     * </if>
+     * </trim>
+     * WHERE  id = #{id}
+     * </update>
+     *
+     * @param table  数据库表的字段
+     * @param config 项目的配置
+     * @return
+     */
+    public static String generateUpdateSql(MysqlTable table, IS_ProjectConfig config) {
+        if (config == null) {
+            config = new IS_ProjectConfig();
+        }
+        StringBuilder sb = new StringBuilder("<update id=\"update" + config.getModelName() + "\" parameterType=\"" + config.getPackageName() + ".model." + config.getModelName() + "\">\n");
+        sb.append("UPDATE ").append(table.getTableName()).append("\n");
+        // 生成前面的trim
+        sb.append("<trim prefix=\"set\" suffixOverrides=\",\" >\n");
+
+        for (MysqlField field : table.getFieldList()) {
+            //生成上面的
+            sb.append("<if test=\"").append(IS_NameUtils.underScope2Camel(field.getName())).append(" != null\">\n")
+                    .append(field.getName() + " = #{" + IS_NameUtils.underScope2Camel(field.getName()) + "},\n").append("</if>\n");
+
+        }
+        sb.append("</trim>\n").append("WHERE  id = #{id}\n").append("</update>");
+
+
+        return sb.toString();
+    }
+
+    /**
+     * 生成select语句
+     * 主要有两个
+     * 1： 通过一个对象查list
+     * 2： 通过一个对象查满足条件的count
+     * <p>
+     * <select id="listStockoutOrderMsg" parameterType="com.wdk.shop.dao.qc.StockoutOrderMsgQC" resultMap="BaseResultMap">
+     * select <include refid="Base_Column_List" />
+     * from warn_stockout_order_msg <include refid="queryCondition" />
+     * <if test="sortBy != null and sortType != null" >
+     * order by ${sortBy} ${sortType}
+     * </if>
+     * <p>
+     * <if test="page != null">
+     * <![CDATA[ limit #{page.startIndex},#{page.pageSize} ]]>
+     * </if>
+     * </select>
+     * <p>
+     * <!--查询满足条件的缺货出消息的总数-->
+     * <select id="countStockoutOrderMsg" parameterType="com.wdk.shop.dao.qc.StockoutOrderMsgQC" resultType="java.lang.Integer">
+     * SELECT count(*) from warn_stockout_order_msg
+     * <include refid="queryCondition"></include>
+     * </select>
+     *
+     * @param table
+     * @param config
+     * @return
+     */
+
+    public static String generateSelectSql(MysqlTable table, IS_ProjectConfig config) {
+        if (config == null) {
+            config = new IS_ProjectConfig();
+        }
+        //查询list的方法
+        StringBuilder listSb = new StringBuilder(" <select id=\"list" + config.getModelName() + "\" parameterType=\"" + config.getPackageName() + ".qc." + config.getModelName() + "QC\" resultMap=\"BaseResultMap\">\n")
+                .append("select <include refid=\"Base_Column_List\" />\n").append("  from ").append(table.getTableName()).append(" <include refid=\"queryCondition\" />\n")
+                .append("  <if test=\"sortBy != null and sortType != null\" >\n")
+                .append("  order by ${sortBy} ${sortType}\n")
+                .append(" </if>\n")
+                .append("  <if test=\"page != null\">\n")
+                .append("  <![CDATA[ limit #{page.startIndex},#{page.pageSize} ]]>\n")
+                .append(" </if>\n")
+                .append(" </select>\n");
+        //查询count的方法
+        StringBuilder countSb = new StringBuilder("<select id=\"count" + config.getModelName() + "\" parameterType=\"" + config.getPackageName() + ".qc." + config.getModelName() + "QC\" resultType=\"java.lang.Integer\">\n")
+                .append("SELECT count(*) from ").append(table.getTableName()).append("\n")
+                .append("<include refid=\"queryCondition\"></include>\n")
+                .append("</select>");
+
+        listSb.append(countSb);
+
+
+        return listSb.toString();
+    }
+
 
     /**
      * 传入一个数据库的field对象，根据据Field里面的 name 和 type 返回一个 JAVA 的 String
      * 返回值如 private String name;
      */
     static Function<MysqlField, String> field2BeanStr = (MysqlField field) -> "private " + MysqlJdbcConfig.getJavaBean(field.getType()) + " " + field.getName() + ";";
+
 }

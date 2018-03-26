@@ -16,6 +16,24 @@ public class MysqlField {
     //备注
     private String remark;
 
+    public String getName() {
+        return name;
+    }
+
+    public MysqlField setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public MysqlField setType(String type) {
+        this.type = type;
+        return this;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -23,21 +41,5 @@ public class MysqlField {
     public MysqlField setRemark(String remark) {
         this.remark = remark;
         return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

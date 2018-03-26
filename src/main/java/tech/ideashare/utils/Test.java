@@ -22,11 +22,12 @@ public class Test {
                 .setUserName("lixiang")
                 .setPassword("admin123");
         MysqlTable table = IS_MySqlUtils.getTableInfo(config,"stockout_order_msg");
-        System.out.println(JSON.toJSONString(table));
         System.out.println(IS_GenMapperUtils.generateModel(table));
         System.out.println(IS_GenMapperUtils.generateQueryCondition(table));
         System.out.println(IS_GenMapperUtils.generateResultMap(table,new IS_ProjectConfig()));
         System.out.println(IS_GenMapperUtils.generateBaseColumnList(table));
         System.out.println(IS_GenMapperUtils.generateInsertSql(table,new IS_ProjectConfig()));
+        System.out.println(IS_GenMapperUtils.generateUpdateSql(table,new IS_ProjectConfig()));
+        System.out.println(IS_GenMapperUtils.generateSelectSql(table,new IS_ProjectConfig()));
     }
 }
