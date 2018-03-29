@@ -29,5 +29,6 @@ public class Test {
         System.out.println(IS_GenMapperUtils.generateInsertSql(table,new IS_ProjectConfig()));
         System.out.println(IS_GenMapperUtils.generateUpdateSql(table,new IS_ProjectConfig()));
         System.out.println(IS_GenMapperUtils.generateSelectSql(table,new IS_ProjectConfig()));
+        //测试vscode
     }
 }
