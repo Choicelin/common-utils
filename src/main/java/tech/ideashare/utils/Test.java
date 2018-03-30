@@ -1,6 +1,5 @@
 package tech.ideashare.utils;
 
-import com.alibaba.fastjson.JSON;
 import tech.ideashare.model.generate_model.IS_ProjectConfig;
 import tech.ideashare.model.generate_model.MysqlJdbcConfig;
 import tech.ideashare.model.generate_model.MysqlTable;
