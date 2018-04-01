@@ -11,7 +11,7 @@ import tech.ideashare.utils.IS_StringUtils;
  * @Author lixiang
  * @CreateTime 28/03/2018
  **/
-public class IS_GenerateMethodUtils {
+public class IS_GenMethodUtils {
 
     /**
      * 生成 Dao 里面的方法
