@@ -666,7 +666,7 @@ public class IS_DateUtils extends org.apache.commons.lang3.time.DateUtils {
      */
     public static String getLastMonth(String yearM) {
         String yymmdd = yearM + "01";
-        Date date = MyDateUtils.valueOf(yymmdd, ISO_DATE_FORMAT);
+        Date date = IS_DateUtils.valueOf(yymmdd, ISO_DATE_FORMAT);
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.DATE, 1);
@@ -691,7 +691,7 @@ public class IS_DateUtils extends org.apache.commons.lang3.time.DateUtils {
      */
     public static String getBeforTwelveMonth(String yearM) {
         String yymmdd = yearM + "01";
-        Date date = MyDateUtils.valueOf(yymmdd, ISO_DATE_FORMAT);
+        Date date = IS_DateUtils.valueOf(yymmdd, ISO_DATE_FORMAT);
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.DATE, 1);
@@ -922,7 +922,7 @@ public class IS_DateUtils extends org.apache.commons.lang3.time.DateUtils {
      * @return 系统当前日期所在月份第一天
      */
     public static Date getCurrMonthFirstDate() {
-        Timestamp ts = MyDateUtils.getNowTime();
+        Timestamp ts = IS_DateUtils.getNowTime();
         return getMonthFirstDate(ts);
     }
 
@@ -1012,7 +1012,7 @@ public class IS_DateUtils extends org.apache.commons.lang3.time.DateUtils {
         cal.set(Calendar.WEEK_OF_YEAR, week);
         cal.setFirstDayOfWeek(firstDayOfWeek);
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        return org.apache.commons.lang.time.DateUtils.truncate(cal.getTime(), Calendar.DATE);
+        return org.apache.commons.lang3.time.DateUtils.truncate(cal.getTime(), Calendar.DATE);
 
     }
 
@@ -1028,9 +1028,9 @@ public class IS_DateUtils extends org.apache.commons.lang3.time.DateUtils {
         cal.set(Calendar.WEEK_OF_YEAR, week);
         cal.setFirstDayOfWeek(firstDayOfWeek);
         cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        Date endDate = org.apache.commons.lang.time.DateUtils.truncate(cal.getTime(), Calendar.DATE);
-        endDate = org.apache.commons.lang.time.DateUtils.addDays(endDate, 1);
-        return org.apache.commons.lang.time.DateUtils.addMilliseconds(endDate, -1);
+        Date endDate = org.apache.commons.lang3.time.DateUtils.truncate(cal.getTime(), Calendar.DATE);
+        endDate = org.apache.commons.lang3.time.DateUtils.addDays(endDate, 1);
+        return org.apache.commons.lang3.time.DateUtils.addMilliseconds(endDate, -1);
     }
 
     /**
@@ -1073,7 +1073,7 @@ public class IS_DateUtils extends org.apache.commons.lang3.time.DateUtils {
     /*
     public static void main(String[] args) throws Exception {
 
-        MyDateUtils.dateToString(new Date(), MyDateUtils.DATETIME_PATTERN);
+        IS_DateUtils.dateToString(new Date(), IS_DateUtils.DATETIME_PATTERN);
 
         Date d = new Date(1453456620000L);
         Calendar cal = Calendar.getInstance();
@@ -1094,8 +1094,8 @@ public class IS_DateUtils extends org.apache.commons.lang3.time.DateUtils {
         Date startDate = getStartDateOfWeek(year, week, Calendar.MONDAY);
         Date endDate = getEndDateOfWeek(year, week, Calendar.MONDAY);
         System.out.println(startDate + " - " + endDate);
-        System.out.println(MyDateUtils.dateAdd("mm", MyDateUtils.createTimestamp(2013, 3, 1), -3).toString());
-        System.out.println(dateToString(getMonthFirstDate(new Date()), MyDateUtils.DATETIME_PATTERN));
+        System.out.println(IS_DateUtils.dateAdd("mm", IS_DateUtils.createTimestamp(2013, 3, 1), -3).toString());
+        System.out.println(dateToString(getMonthFirstDate(new Date()), IS_DateUtils.DATETIME_PATTERN));
         System.out.println(dateToString(new Date(), "yyyy.M"));
         System.out.println(dateToString(dateAdd("mm", new Date(), -2), "yyyy-MM-dd HH:mm:ss.sss"));
     }

@@ -42,15 +42,12 @@ public class Test {
 
         //测试类的生成和注入
         IS_GenModelUtils modelUtils = new IS_GenModelUtils();
-        modelUtils.generate_model(TestModel.class);
+        try{
 
-
-        Map<String , List<String>> map  = new HashMap<>();
-        List<String> newString  = Arrays.asList("123","123","3333");
-        List<String> newString2  = Arrays.asList("lixiang","lizhi","longjun");
-        map.put("id",newString);
-        map.put("name",newString2);
-        System.out.println(JSON.toJSONString(map));
-      
+            modelUtils.generate_model(TestModel.class);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+   
     }
 }

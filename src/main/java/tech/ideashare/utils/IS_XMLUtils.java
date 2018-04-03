@@ -41,7 +41,7 @@ public class IS_XMLUtils {
         }
     }
 
-    public static BaseWrapper loadFromFile(String fileName,Class clazz){
+    public static BaseWrapper<?> loadFromFile(String fileName,Class<?> clazz){
         try {
 
             JAXBContext context = JAXBContext.newInstance(clazz);
@@ -49,7 +49,7 @@ public class IS_XMLUtils {
             String pathNow = IS_XMLUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             String filePath = new File(pathNow).getParent() + "/conf/"+fileName;
             File file = new File(filePath);
-            return (BaseWrapper) um.unmarshal(file);
+            return (BaseWrapper<?>) um.unmarshal(file);
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -72,7 +72,7 @@ public class IS_XMLUtils {
      * @param fileName 要添加的文件名
      * @param clazz   要添加的实体类的wrapper类
      */
-    public static void addToFile(Object object,String fileName,Class clazz){
+    public static void addToFile(Object object,String fileName,Class<?> clazz){
 
         BaseWrapper wrapper = loadFromFile(fileName,clazz);
         List list = wrapper.getList();

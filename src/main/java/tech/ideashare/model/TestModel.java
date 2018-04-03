@@ -9,6 +9,16 @@ public class TestModel{
     private Date time;
     private Boolean changeFlag;
     private BigDecimal money;
+    private Long totalNum;
+
+    public Long getTotalNum(){
+        return totalNum;
+    }
+
+    public TestModel setTotalNum (Long totalNum){
+        this.totalNum = totalNum;
+        return this;
+    }
 
 
     public Boolean getChangeFlag(){

@@ -1,7 +1,6 @@
 package tech.ideashare.model.generate_model;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 存的是数据库表对应的实体
