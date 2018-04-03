@@ -1,11 +1,33 @@
 package tech.ideashare.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TestModel{
     private String name;
     private Integer id;
     private Date time;
+    private Boolean changeFlag;
+    private BigDecimal money;
+
+
+    public Boolean getChangeFlag(){
+        return changeFlag;
+    }
+
+    public TestModel setChangeFlag(Boolean changeFlag){
+        this.changeFlag = changeFlag;
+        return this;
+    }
+
+    public BigDecimal getMoney(){
+        return money;
+    }
+
+    public TestModel setMoney(BigDecimal money){
+        this.money = money;
+        return this;
+    }
     
     public String getName() {
         return name;

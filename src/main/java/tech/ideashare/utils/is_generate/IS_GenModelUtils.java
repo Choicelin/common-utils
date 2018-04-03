@@ -3,6 +3,7 @@ package tech.ideashare.utils.is_generate;
 import java.lang.reflect.Field;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 /**
  * @Author lixiang
@@ -21,9 +22,7 @@ public class IS_GenModelUtils {
         //从配置文件中初始化字典
         
         //如果没有配置文件，则在类型匹配时会根据类型自动生成一个随机的东东
-
-
-
+        
         //获取到一个类里面所有的变量
         Field[] allFields = clazz.getDeclaredFields();
         for(Field field : allFields){

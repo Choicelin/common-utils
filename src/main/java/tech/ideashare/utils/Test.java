@@ -6,6 +6,8 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.util.List;
 import tech.ideashare.model.TestModel;
 import tech.ideashare.model.generate_model.IS_ProjectConfig;
