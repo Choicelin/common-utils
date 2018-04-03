@@ -1,13 +1,20 @@
 package tech.ideashare.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class IS_TimeUtils {
 
     public static void main(String[] args) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        System.out.println(dateFormat.format(new Date()));
+        TTT t = new TTT();
+        t.sss();
+    }
+
+    static class TTT{
+        public void sss (){
+            System.out.println(this);
+        }
     }
 }
